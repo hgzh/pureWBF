@@ -84,39 +84,25 @@ Procedure.i loginUser(pzUsername.s, pzPassword.s)
   Protected NewMap mP.s()
 ; -----------------------------------------  
   
+  zLgToken = getToken("login")
+  
+  ClearMap(mP())
   mP("action")     = "login"
   mP("lgname")     = pzUsername
   mP("lgpassword") = pzPassword
+  mP("lgtoken")    = zLgToken
   zResult = Request::mwApi(mP(), 1)
-  
+
   iJSON = ParseJSON(#PB_Any, zResult)
   If iJSON
-    zResult  = JSON::Get(iJSON, "login\result")
-    zLgToken = JSON::Get(iJSON, "login\token")
+    zResult = JSON::Get(iJSON, "login\result")    
     FreeJSON(iJSON)
   EndIf
   
   If zResult = "Success"
     ProcedureReturn 1
-  ElseIf zResult = "NeedToken"
-    ClearMap(mP())
-    mP("action")     = "login"
-    mP("lgname")     = pzUsername
-    mP("lgpassword") = pzPassword
-    mP("lgtoken")    = zLgToken
-    zResult = Request::mwApi(mP(), 1)
-  
-    iJSON = ParseJSON(#PB_Any, zResult)
-    If iJSON
-      zResult = JSON::Get(iJSON, "login\result")    
-      FreeJSON(iJSON)
-    EndIf
-    
-    If zResult = "Success"
-      ProcedureReturn 1
-    Else
-      ProcedureReturn 0
-    EndIf
+  Else
+    ProcedureReturn 0
   EndIf
   
 EndProcedure
@@ -137,7 +123,7 @@ EndProcedure
   
 EndModule
 ; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 14
+; CursorPosition = 23
 ; Folding = --
 ; EnableUnicode
 ; EnableXP
