@@ -47,7 +47,7 @@ Procedure.i init()
   EndIf
   
   zCookieFile = GetTemporaryDirectory() + "pbwb-cookies.txt"
-  zUserAgent  = curl::str2curl("pbwb2 - de:user:hgzh")
+  zUserAgent  = curl::str2curl("pureWBF by de:user:hgzh")
   zHeader     = curl::str2curl("Cache-Control: no-cache")
   zEncoding   = curl::str2curl("UTF-8")
   
@@ -203,7 +203,8 @@ EndProcedure
   
 EndModule
 ; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 21
+; CursorPosition = 49
+; FirstLine = 39
 ; Folding = --
 ; EnableUnicode
 ; EnableXP
