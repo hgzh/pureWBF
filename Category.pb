@@ -4,14 +4,14 @@
 
 DeclareModule Category
   
-  Declare.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespace.s = "", pzType.s = "", piDepth.i = 0)
+  Declare.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespace.s = "", pzType.s = "", piDepth.i = 0, piNoDupes.i = 0)
   
 EndDeclareModule
 
 Module Category
 EnableExplicit
 
-Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespace.s = "", pzType.s = "", piDepth.i = 0)
+Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespace.s = "", pzType.s = "", piDepth.i = 0, piNoDupes.i = 0)
 ; -----------------------------------------
 ; #desc    get members of category page
 ; #param   pllOutput   : output list
@@ -20,7 +20,8 @@ Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespac
 ;          pzNamespace : nr of namespace
 ;          pzType      : entry type (page, file, subcat)
 ;          piDepth     : recursion depth
-; #returns 0 - error, 1 - success
+;          piNoDupes   : remove duplicated items
+; #returns -1 - error, else nr of items in category
 ; -----------------------------------------
   Protected.i iJSON,
               iMatch,
@@ -69,6 +70,9 @@ Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespac
     EndIf
   EndIf
   
+  ; //
+  ; loop through
+  ; //
   Repeat
     zResult = Request::mwApi(mP())
     iJSON = ParseJSON(#PB_Any, zResult)
@@ -80,11 +84,19 @@ Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespac
       
       For i = JSONArraySize(Val(JSON::Get(iJSON, "query\categorymembers"))) - 1 To 0 Step -1
         zTitle = JSON::Get(iJSON, "query\categorymembers\[" + i + "]" + "\title")
+        
+        ; //
+        ; step into categorytree if recursion is enabled
+        ; //
         If piDepth
           If JSON::Get(iJSON, "query\categorymembers\[" + i + "]" + "\type") = "subcat"
             getMembers(pllOutput(), zTitle, pmArgs(), pzNamespace, pzType, piDepth - 1)
           EndIf
         EndIf
+        
+        ; //
+        ; check if page is in given namespace
+        ; //
         iMatch = 0
         For j = 1 To CountString(pzNamespace, "|") + 1
           If JSON::Get(iJSON, "query\categorymembers\[" + i + "]" + "\ns") = StringField(pzNamespace, j, "|")
@@ -99,15 +111,46 @@ Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespac
       Next i
       
       FreeJSON(iJSON)
+    Else
+      ProcedureReturn -1
     EndIf
   Until zContinue = ""
+  
+  ; //
+  ; sort list
+  ; //
+  SortList(pllOutput(), #PB_Sort_Ascending)
+  
+  ; //
+  ; remove duplicated items
+  ; //
+  If piNoDupes
+    ForEach pllOutput()
+      zTitle = pllOutput()
+      PushListPosition(pllOutput())
+      Repeat
+        If NextElement(pllOutput())
+          If zTitle = pllOutput()
+            DeleteElement(pllOutput())
+          Else
+            Break
+          EndIf
+        Else
+          Break
+        EndIf
+      ForEver
+      PopListPosition(pllOutput())
+    Next
+  EndIf
+  
+  ProcedureReturn ListSize(pllOutput())
   
 EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 41
-; FirstLine = 27
+; CursorPosition = 147
+; FirstLine = 114
 ; Folding = -
 ; EnableXP
 ; CompileSourceDirectory
