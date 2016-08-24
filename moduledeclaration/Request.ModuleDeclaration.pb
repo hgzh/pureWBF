@@ -13,11 +13,11 @@ DeclareModule Request
   Declare   close        ()
   Declare.i getStatusCode()
   Declare.s urlencodeText(pzText.s, piEncoding = #PB_UTF8)
-  Declare.s mwApi        (Map pmRequest.s(), piPOST.i = 0)
+  Declare.s mwApi        (Map pmRequest.s(), piPOST.i = 0, piFormatVersion = 1)
   
 EndDeclareModule
 ; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 17
+; CursorPosition = 15
 ; Folding = -
 ; EnableXP
 ; CompileSourceDirectory

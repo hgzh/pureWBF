@@ -121,11 +121,12 @@ Procedure.s urlencodeText(pzText.s, piEncoding = #PB_UTF8)
   ProcedureReturn zEncodedURL
 EndProcedure
 
-Procedure.s mwApi(Map pmRequest.s(), piPOST.i = 0)
+Procedure.s mwApi(Map pmRequest.s(), piPOST.i = 0, piFormatVersion = 1)
 ; -----------------------------------------
 ; #desc    performs request to MediaWiki API
-; #param   pmRequest : map with url arguments
-;          piPOST    : use POST (1) or GET (0)
+; #param   pmRequest       : map with url arguments
+;          piPOST          : use POST (1) or GET (0)
+;          piFormatVersion : mwApi format version
 ; #returns result of request
 ; -----------------------------------------
   Protected.s zArgsURL,
@@ -141,6 +142,10 @@ Procedure.s mwApi(Map pmRequest.s(), piPOST.i = 0)
   ForEach pmRequest()
     zArgsURL + "&" + MapKey(pmRequest()) + "=" + pmRequest()
   Next
+  If piFormatVersion > 1
+    zArgsURL + "&formatversion=" + Str(piFormatVersion)
+  EndIf
+  
   _giLastRequest\zURL = zBaseURL + "?" + zArgsURL
   
   If piPOST = 0
@@ -188,7 +193,8 @@ EndProcedure
   
 EndModule
 ; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 13
+; CursorPosition = 149
+; FirstLine = 132
 ; Folding = --
 ; EnableXP
 ; CompileSourceDirectory
