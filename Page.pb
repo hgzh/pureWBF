@@ -2,17 +2,8 @@
 ; Page module
 ; -----------------------
 
-DeclareModule Page
-  
-  Declare.s getWikitext(pzTitle.s)
-  Declare.i replaceWikitext(pzTitle.s, pzNewText.s, pzSummary.s, piBot.i, Map pmArgs.s())
-  Declare.i appendWikitext(pzTitle.s, pzNewText.s, pzSummary.s, piBot.i, Map pmArgs.s())
-  Declare.i prependWikitext(pzTitle.s, pzNewText.s, pzSummary.s, piBot.i, Map pmArgs.s())
-  
-EndDeclareModule
-
 Module Page
-EnableExplicit
+  EnableExplicit
 
 Procedure.i _setWikitext(pzTitle.s, pzText.s, pzSummary.s, piBot.i, piMode.i, Map pmArgs.s())
 ; -----------------------------------------
@@ -33,7 +24,7 @@ Procedure.i _setWikitext(pzTitle.s, pzText.s, pzSummary.s, piBot.i, piMode.i, Ma
   mP("action")  = "edit"
   mP("title")   = Request::urlencodeText(pzTitle)
   mP("summary") = pzSummary
-  mP("token")   = Auth::getToken()
+  mP("token")   = Site::getToken()
   If piBot = 1
     mP("bot")   = ""
   EndIf
@@ -129,9 +120,9 @@ Procedure.i prependWikitext(pzTitle.s, pzNewText.s, pzSummary.s, piBot.i, Map pm
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 14
+; IDE Options = PureBasic 5.50 (Windows - x86)
+; CursorPosition = 5
 ; Folding = --
-; EnableUnicode
 ; EnableXP
 ; CompileSourceDirectory
+; EnableUnicode

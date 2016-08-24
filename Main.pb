@@ -6,18 +6,31 @@ EnableExplicit
 ; //
 ; include files
 ; //
-XIncludeFile "includes\libcurl.pb"
-XIncludeFile "includes\JSON.pb"
+IncludePath "includes"
+XIncludeFile "libcurl.pb"
+XIncludeFile "JSON.pb"
+
+; //
+; include module declarations
+; //
+IncludePath "moduledeclaration"
+XIncludeFile "Auth.ModuleDeclaration.pb"
+XIncludeFile "Category.ModuleDeclaration.pb"
+XIncludeFile "Page.ModuleDeclaration.pb"
+XIncludeFile "Request.ModuleDeclaration.pb"
+XIncludeFile "Site.ModuleDeclaration.pb"
 
 ; //
 ; include modules
 ; //
-XIncludeFile "Request.pb"
+IncludePath ""
 XIncludeFile "Auth.pb"
 XIncludeFile "Category.pb"
 XIncludeFile "Page.pb"
-; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 17
-; EnableUnicode
+XIncludeFile "Request.pb"
+XIncludeFile "Site.pb"
+; IDE Options = PureBasic 5.50 (Windows - x86)
+; CursorPosition = 30
 ; EnableXP
 ; CompileSourceDirectory
+; EnableUnicode

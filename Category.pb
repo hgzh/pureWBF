@@ -2,14 +2,8 @@
 ; Category module
 ; -----------------------
 
-DeclareModule Category
-  
-  Declare.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespace.s = "", pzType.s = "", piDepth.i = 0, piNoDupes.i = 0)
-  
-EndDeclareModule
-
 Module Category
-EnableExplicit
+  EnableExplicit
 
 Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespace.s = "", pzType.s = "", piDepth.i = 0, piNoDupes.i = 0)
 ; -----------------------------------------
@@ -148,9 +142,8 @@ Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespac
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 147
-; FirstLine = 114
+; IDE Options = PureBasic 5.50 (Windows - x86)
+; CursorPosition = 5
 ; Folding = -
 ; EnableXP
 ; CompileSourceDirectory

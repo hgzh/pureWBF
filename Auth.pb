@@ -2,74 +2,8 @@
 ; Authentication module
 ; -----------------------
 
-DeclareModule Auth
-  
-  Declare.i refreshToken(pzType.s = "csrf", piForced.i = 0)
-  Declare.s getToken(pzType.s = "csrf")
-  Declare.i loginUser(pzUsername.s, pzPassword.s)
-  Declare   logoutUser()
-    
-EndDeclareModule
-
 Module Auth
-EnableExplicit
-
-; //
-; map with all saved tokens
-; //
-Global NewMap _gmTokens.s()
-
-Procedure.i refreshToken(pzType.s = "csrf", piForced.i = 0)
-; -----------------------------------------
-; #desc    refresh the token with the given type
-; #param   pzType   : type of token
-;          piForced : get new token even there is already one
-; #returns 1 if token refreshed, 0 if not
-; -----------------------------------------  
-  Protected.i iJSON
-  Protected.s zResult,
-              zText
-  Protected NewMap mP.s()
-; -----------------------------------------  
-  
-  If _gmTokens(pzType) <> "" And piForced = 0
-    ProcedureReturn 0
-  EndIf
-  
-  mP("action") = "query"
-  mP("meta")   = "tokens"
-  mP("type")   = pzType
-  zResult = Request::mwApi(mP())
-    
-  iJSON = ParseJSON(#PB_Any, zResult)
-  If iJSON
-    zText = JSON::Get(iJSON, "query\tokens\" + pzType + "token")
-    FreeJSON(iJSON)
-  EndIf
-  
-  If zText
-    _gmTokens(pzType) = URLEncoder(zText)
-    ProcedureReturn 1
-  Else
-    ProcedureReturn 0
-  EndIf
-  
-EndProcedure
-
-Procedure.s getToken(pzType.s = "csrf")
-; -----------------------------------------
-; #desc    get the current token with the given type
-; #param   pzType   : type of token
-; #returns token value
-; -----------------------------------------  
-
-  If _gmTokens(pzType) = ""
-    refreshToken(pzType)
-  EndIf
-  
-  ProcedureReturn _gmTokens(pzType)
-  
-EndProcedure
+  EnableExplicit
 
 Procedure.i loginUser(pzUsername.s, pzPassword.s)
 ; -----------------------------------------
@@ -84,7 +18,7 @@ Procedure.i loginUser(pzUsername.s, pzPassword.s)
   Protected NewMap mP.s()
 ; -----------------------------------------  
   
-  zLgToken = getToken("login")
+  zLgToken = Site::getToken("login")
   
   ClearMap(mP())
   mP("action")     = "login"
@@ -122,9 +56,9 @@ Procedure logoutUser()
 EndProcedure
   
 EndModule
-; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 23
-; Folding = --
-; EnableUnicode
+; IDE Options = PureBasic 5.50 (Windows - x86)
+; CursorPosition = 10
+; Folding = -
 ; EnableXP
 ; CompileSourceDirectory
+; EnableUnicode

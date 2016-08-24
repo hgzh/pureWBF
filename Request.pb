@@ -2,31 +2,16 @@
 ; Request module
 ; -----------------------
 
-DeclareModule Request
-  
-  ; //
-  ; handle for static libcurl access
-  ; //
-  Global.i giCurlHandle = -1
-  
-  Declare.i init()
-  Declare   close()
-  Declare.i getStatusCode()
-  Declare.s urlencodeText(pzText.s, piEncoding = #PB_UTF8)
-  Declare.s mwApi(Map pmRequest.s(), piPOST.i = 0)
-  
-EndDeclareModule
-
 Module Request
-EnableExplicit
-
-Structure _REQUEST_LAST
-  zURL.s
-  zResult.s
-  iHttpCode.i
-EndStructure  
+  EnableExplicit
   
-Global _giLastRequest._REQUEST_LAST
+  Structure _REQUEST_LAST
+    zURL.s
+    zResult.s
+    iHttpCode.i
+  EndStructure  
+    
+  Global _giLastRequest._REQUEST_LAST
   
 Procedure.i init()
 ; -----------------------------------------
@@ -151,7 +136,7 @@ Procedure.s mwApi(Map pmRequest.s(), piPOST.i = 0)
   ; //
   ; build url
   ; //
-  zBaseURL = "https://de.wikipedia.org/w/api.php"
+  zBaseURL = "https://" + Site::*Current\zURL + "/w/api.php"
   zArgsURL = "format=json"
   ForEach pmRequest()
     zArgsURL + "&" + MapKey(pmRequest()) + "=" + pmRequest()
@@ -202,10 +187,9 @@ Procedure.s mwApi(Map pmRequest.s(), piPOST.i = 0)
 EndProcedure
   
 EndModule
-; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 49
-; FirstLine = 39
+; IDE Options = PureBasic 5.50 (Windows - x86)
+; CursorPosition = 13
 ; Folding = --
-; EnableUnicode
 ; EnableXP
 ; CompileSourceDirectory
+; EnableUnicode
