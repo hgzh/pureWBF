@@ -119,9 +119,68 @@ Procedure.i prependWikitext(pzTitle.s, pzNewText.s, pzSummary.s, piBot.i, Map pm
   
 EndProcedure
 
+Procedure.s getLanguagelinkTarget(pzTitle.s, pzLangCode.s)
+; -----------------------------------------
+; #desc    get the page title of a languagelink connected with the given title in the given lang code.
+; #param   pzTitle     : source page title
+;          pzTLangCode : target language code
+; #returns page title
+; -----------------------------------------
+  Protected.i iJSON
+  Protected.s zResult,
+              zText
+  Protected NewMap mP.s()
+; -----------------------------------------
+  
+  mP("action") = "query"
+  mP("prop")   = "langlinks"
+  mP("titles") = URLEncoder(pzTitle)
+  mP("lllang") = pzLangCode
+  zResult = Request::mwApi(mP(), 0, 2)
+  
+  iJSON = ParseJSON(#PB_Any, zResult)
+  If iJSON
+    zText = JSON::Get(iJSON, "query\pages\[0]\langlinks\[0]\title")
+    FreeJSON(iJSON)
+  EndIf
+  
+  ProcedureReturn zText
+
+EndProcedure
+
+Procedure.s getInterwikilinkTarget(pzTitle.s, pzPrefix.s)
+; -----------------------------------------
+; #desc    get the page title of an interwikilink connected with the given title in the project with the given prefix.
+; #param   pzTitle   : source page title
+;          pzPrefix  : target project prefix
+; #returns page title
+; -----------------------------------------
+  Protected.i iJSON
+  Protected.s zResult,
+              zText
+  Protected NewMap mP.s()
+; -----------------------------------------
+  
+  mP("action") = "query"
+  mP("prop")   = "iwlinks"
+  mP("titles") = URLEncoder(pzTitle)
+  mP("iwprefix") = pzPrefix
+  zResult = Request::mwApi(mP(), 0, 2)
+  
+  iJSON = ParseJSON(#PB_Any, zResult)
+  If iJSON
+    zText = JSON::Get(iJSON, "query\pages\[0]\iwlinks\[0]\title")
+    FreeJSON(iJSON)
+  EndIf
+  
+  ProcedureReturn zText
+
+EndProcedure
+
 EndModule
 ; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 5
+; CursorPosition = 166
+; FirstLine = 144
 ; Folding = --
 ; EnableXP
 ; CompileSourceDirectory
