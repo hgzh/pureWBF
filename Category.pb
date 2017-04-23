@@ -142,8 +142,3 @@ Procedure.i getMembers(List pllOutput.s(), pzTitle.s, Map pmArgs.s(), pzNamespac
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 5
-; Folding = -
-; EnableXP
-; CompileSourceDirectory

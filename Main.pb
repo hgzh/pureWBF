@@ -29,8 +29,3 @@ XIncludeFile "Category.pb"
 XIncludeFile "Page.pb"
 XIncludeFile "Request.pb"
 XIncludeFile "Site.pb"
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 30
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

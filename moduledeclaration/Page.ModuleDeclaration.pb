@@ -12,8 +12,3 @@ DeclareModule Page
   Declare.s getInterwikilinkTarget(pzTitle.s, pzPrefix.s)
   
 EndDeclareModule
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 13
-; Folding = -
-; EnableXP
-; CompileSourceDirectory

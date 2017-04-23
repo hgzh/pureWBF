@@ -104,10 +104,3 @@ Procedure.s getToken(pzType.s = "csrf")
 EndProcedure
   
 EndModule
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 29
-; FirstLine = 70
-; Folding = -
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

@@ -18,8 +18,3 @@ DeclareModule Site
   Global *Current.SITE
   
 EndDeclareModule
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 19
-; Folding = -
-; EnableXP
-; CompileSourceDirectory

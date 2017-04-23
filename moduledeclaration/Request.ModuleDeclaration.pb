@@ -16,8 +16,3 @@ DeclareModule Request
   Declare.s mwApi        (Map pmRequest.s(), piPOST.i = 0, piFormatVersion = 1)
   
 EndDeclareModule
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 15
-; Folding = -
-; EnableXP
-; CompileSourceDirectory

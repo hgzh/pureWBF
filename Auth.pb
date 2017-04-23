@@ -56,9 +56,3 @@ Procedure logoutUser()
 EndProcedure
   
 EndModule
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 10
-; Folding = -
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

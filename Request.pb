@@ -192,10 +192,3 @@ Procedure.s mwApi(Map pmRequest.s(), piPOST.i = 0, piFormatVersion = 1)
 EndProcedure
   
 EndModule
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 149
-; FirstLine = 132
-; Folding = --
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

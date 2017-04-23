@@ -1070,9 +1070,3 @@ Procedure.s str2curl(string.s)
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 6
-; Folding = --
-; EnableUnicode
-; EnableXP
-; CompileSourceDirectory

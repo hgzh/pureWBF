@@ -178,10 +178,3 @@ Procedure.s getInterwikilinkTarget(pzTitle.s, pzPrefix.s)
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 5.50 (Windows - x86)
-; CursorPosition = 166
-; FirstLine = 144
-; Folding = --
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

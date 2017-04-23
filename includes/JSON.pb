@@ -118,9 +118,3 @@ Module JSON
       ProcedureReturn ret
    EndProcedure
 EndModule
-; IDE Options = PureBasic 5.42 Beta 1 LTS (Windows - x86)
-; CursorPosition = 3
-; Folding = --
-; EnableUnicode
-; EnableXP
-; CompileSourceDirectory
