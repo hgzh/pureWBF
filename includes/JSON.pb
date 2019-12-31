@@ -70,7 +70,7 @@ Module JSON
                   ret$ = "null"
                Case #PB_JSON_Number
                   ret$ = StrD(GetJSONDouble(jv))
-               Case #PB_JSON_Array
+               Case #PB_JSON_Array, #PB_JSON_Object
                   ret$ = Str(jv)
             EndSelect     
          EndIf
