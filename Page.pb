@@ -177,4 +177,90 @@ Procedure.s getInterwikilinkTarget(pzTitle.s, pzPrefix.s)
 
 EndProcedure
 
+Procedure.i getEmbeddedIn(List pllOutput.s(), pzTitle.s, piID.i, pzNamespace.s, Map pmArgs.s())
+; -----------------------------------------
+; #desc    get the page's embeddings in other pages
+; #param   pllOutput   : output list
+;          pzTitle     : page title
+;          piID        : or page id
+;          pzNamespace : nr of namespace
+;          pmArgs      : map with further query parameters
+; #returns embeddings count
+; -----------------------------------------
+  Protected.i iJSON,
+              iMatch,
+              i,
+              j
+  Protected.s zResult,
+              zContinue,
+              zContinuePoint,
+              zTitle
+  Protected NewMap mP.s()
+; -----------------------------------------
+  
+  ; //
+  ; build initial query
+  ; //
+  mP("action")   = "query"
+  mP("list")     = "embeddedin"
+  If piID > -1
+    mP("eipageid") = Str(piID)
+  Else
+    mP("eititle")  = Request::urlencodeText(pzTitle)
+  EndIf
+  mP("ceilimit")  = "max"
+  mP("continue") = ""
+  If pzNamespace
+    mP("einamespace") = pzNamespace
+  EndIf
+  ForEach pmArgs()
+    mP(MapKey(pmArgs())) = pmArgs()
+  Next
+  
+  ; //
+  ; loop through
+  ; //
+  Repeat
+    zResult = Request::mwApi(mP())
+    iJSON = ParseJSON(#PB_Any, zResult)
+    If iJSON
+      zContinue      = JSON::Get(iJSON, "continue\continue")
+      zContinuePoint = JSON::Get(iJSON, "continue\eicontinue")
+        
+      mP("eicontinue") = zContinuePoint
+      
+      For i = JSONArraySize(Val(JSON::Get(iJSON, "query\embeddedin"))) - 1 To 0 Step -1
+        zTitle = JSON::Get(iJSON, "query\embeddedin\[" + i + "]" + "\title")
+        
+        ; //
+        ; check if page is in given namespace
+        ; //
+        iMatch = 0
+        For j = 1 To CountString(pzNamespace, "|") + 1
+          If JSON::Get(iJSON, "query\embeddedin\[" + i + "]" + "\ns") = StringField(pzNamespace, j, "|")
+            iMatch = 1
+            Break
+          EndIf
+        Next j
+        If iMatch
+          AddElement(pllOutput())
+          pllOutput() = zTitle
+        EndIf
+      Next i
+      
+      FreeJSON(iJSON)
+    Else
+      ProcedureReturn -1
+    EndIf
+  Until zContinue = ""
+  
+  ; //
+  ; sort list
+  ; //
+  SortList(pllOutput(), #PB_Sort_Ascending)
+  
+  ProcedureReturn ListSize(pllOutput())
+    
+EndProcedure
+
 EndModule
